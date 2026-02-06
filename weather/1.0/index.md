@@ -148,6 +148,9 @@ Future revisions will appear at new paths:
 /weather/2.0/
 ```
 
+Latest version:
+https://xmp.epic-fail.xyz/weather/latest
+
 ## Implementation Guidance
 
 Implementers should prefer:
