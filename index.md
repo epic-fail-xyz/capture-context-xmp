@@ -1,4 +1,7 @@
-# XMP Weather Schema 0.1
+# XMP Weather Schema 1.0
+
+> ⚠️ **Status: Draft**  
+> This schema is under active development and may change.
 
 Namespace:
 https://xmp.epic-fail.xyz/
