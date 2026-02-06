@@ -32,7 +32,7 @@ without requiring proprietary services.
 ## Specifications
 ### Stable / In Development
 
-Weather Capture Context XMP - Version 1.0 (Draft)
+**Weather Capture Context XMP - Version 1.0 (Draft)**
 `/weather/1.0/`
 
 Additional environmental modules are expected over time.
@@ -42,10 +42,10 @@ Additional environmental modules are expected over time.
 The project follows several guiding principles:
 * **Archival-first** - metadata should remain interpretable decades into the future.
 * **Observational truth** — store measured conditions, not UI summaries.
-* **SI units* — ensure global analytical compatibility.
-* **Minimalism* — smaller schemas survive real-world media pipelines.
-* **Immutable versioning* — published namespaces are never modified.
-* **Open by default* — specifications are intended for universal adoption.
+* **SI units** — ensure global analytical compatibility.
+* **Minimalism** — smaller schemas survive real-world media pipelines.
+* **Immutable versioning** — published namespaces are never modified.
+* **Open by default** — specifications are intended for universal adoption.
 
 ## Governance
 
