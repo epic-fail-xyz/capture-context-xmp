@@ -99,7 +99,7 @@ Integer.
 * wx:windDirectionDegrees
 * wx:pressureHpa
 
-## Acquisition Context
+## Acquisition Context Fields
 
 These fields improve interpretability but are not required.
 * wx:dataProvider
