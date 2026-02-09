@@ -1,6 +1,6 @@
 # Weather Capture Context XMP Specification — Version 1.0
 
-🟧 Status: Draft — Implementation Feedback Welcome
+🟦 Status: Candidate Recommendation
 
 ## Namespace
 > https://xmp.epic-fail.xyz/weather/1.0/
@@ -8,6 +8,7 @@
 Preferred prefix: `wx`
 
 This namespace is immutable once published.
+Corrections or extensions will appear only in subsequent versioned namespaces.
 
 ## Scope
 
@@ -45,15 +46,19 @@ Observation method and distance are included when available.
 
 Smaller schemas are more resilient across media pipelines.
 
+## Terminology
+
+**Observation** — Measured or modeled atmospheric conditions associated with a specific timestamp.
+
+**Capture Location** — Geographic position where the media was created.
+
 ## Required Fields
 ### wx:observationTime
-
-Type: ISO 8601 UTC timestamp
-Description: Time the observation represents.
+* **Type**: ISO 8601 UTC timestamp
+* **Description**: Timestamp representing when the atmospheric conditions were observed or modeled, not when the data was retrieved.
 
 ### wx:observationSource
-
-Type: Closed vocabulary
+* **Type**: Closed enumeration
 ```
 station
 satellite
@@ -64,11 +69,12 @@ personalSensor
 ```
 
 ### wx:temperatureC
+* **Type**: Decimal (°C)
+* **Description**: Precision is implementation-defined.
 
-Type: Real number (°C)
-
-## Strongly Recommended Fields
+## Recommended Fields
 ### wx:skyCondition
+* **Type**: Closed enumeration
 ```
 clear
 few
@@ -79,6 +85,7 @@ obscured
 ```
 
 ### wx:precipitationType
+* **Type**: Closed enumeration
 ```
 none
 rain
@@ -90,24 +97,61 @@ mixed
 ```
 
 ### wx:visibilityMeters
+* **Type**: Integer
 
-Integer.
+## Recommended Extensions
+### wx:humidityPercent
+* **Type**: Integer (0–100)
+* **Description**: Relative humidity at observation time.
 
-## Optional High-Value Fields
-* wx:humidityPercent
-* wx:windSpeedMps
-* wx:windDirectionDegrees
-* wx:pressureHpa
+### wx:windSpeedMps
+* **Type**: Decimal
+* **Description**: Sustained wind speed measured in meters per second.
+
+### wx:windDirectionDegrees
+* **Type**: Integer (0–360)
+* **Description**: Direction from which the wind originates, expressed in degrees clockwise from true north.
+
+### wx:pressureHpa
+* **Type**: Decimal
+* **Description**: Atmospheric pressure expressed in hectopascals.
 
 ## Acquisition Context Fields
+These fields describe how the observation was obtained rather than the atmospheric conditions themselves.
 
 These fields improve interpretability but are not required.
-* wx:dataProvider
-* wx:providerStationId
-* wx:observationDistanceMeters
-* wx:observationMethod
-* wx:lookupTime
-* wx:confidencePercent
+
+### wx:dataProvider
+* **Type**: String
+* **Description**: Organization or system that supplied the observation data.
+
+### wx:providerStationId
+* **Type**: String
+* **Description**: Identifier assigned by the data provider to the observation station or source.
+
+### wx:observationDistanceMeters
+* **Type**: Decimal
+* **Description**: Approximate spatial separation between capture location and observation source.
+
+### wx:observationMethod
+* **Type**: Extensible Enumeration
+
+Suggested values:
+```
+direct
+interpolated
+modeled
+blended
+unknown
+```
+
+### wx:lookupTime
+* **Type**: ISO 8601 UTC timestamp
+* **Description**: Time at which the observation data was retrieved from the provider.
+
+### wx:confidencePercent
+* **Type**: Integer (0–100)
+* **Description**: Provider- or implementation-estimated confidence in the observation accuracy.
 
 ## Example
 ```
@@ -123,7 +167,7 @@ These fields improve interpretability but are not required.
 </rdf:Description>
 ```
 
-## Non-Goals
+## Out of Scope
 
 The specification intentionally excludes:
 * forecasts
@@ -132,11 +176,9 @@ The specification intentionally excludes:
 * comfort indices
 * provider-specific condition codes
 
-## Payload Guidance
+## Size Considerations
 
-Typical payload size should remain well under 1KB.
-
-Embedding large datasets is discouraged.
+Implementations SHOULD keep payload size minimal to maximize compatibility across media pipelines.
 
 ## Versioning Policy
 
@@ -159,7 +201,9 @@ Implementers should prefer:
 * transparent interpolation
 * accurate timestamps
 
-Rounded lookup coordinates should not replace original capture GPS data.
+When possible, implementers SHOULD prefer observational data over modeled data.
+
+Consumers MUST ignore unknown fields within the namespace to preserve forward compatibility.
 
 ## License
 CC0 (Public Domain)
