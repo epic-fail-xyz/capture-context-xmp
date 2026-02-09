@@ -11,7 +11,6 @@ This namespace is immutable once published.
 Corrections or extensions will appear only in subsequent versioned namespaces.
 
 ## Scope
-
 This specification defines a minimal set of atmospheric observations that may be embedded into digital media to describe environmental conditions at capture time.
 
 The schema prioritizes:
@@ -23,28 +22,25 @@ Forecast data and UI-derived metrics are intentionally excluded.
 
 ## Design Principles
 ### Archival First
-
 Metadata should remain understandable without requiring the originating service.
 
 ### Observational Truth
-
 Fields describe measured or modeled conditions — not interpretations.
 
 ### SI Units Only
-
 All numeric measurements use metric units.
 
 ### Store Primitives
-
 Derived values (e.g., “feels like”) are excluded.
 
 ### Acquisition Transparency
-
 Observation method and distance are included when available.
 
 ### Minimal Surface Area
-
 Smaller schemas are more resilient across media pipelines.
+
+### Controlled Vocabularies
+Closed enumerations are used where atmospheric states are finite to ensure interoperability across implementations.
 
 ## Terminology
 
@@ -53,12 +49,15 @@ Smaller schemas are more resilient across media pipelines.
 **Capture Location** — Geographic position where the media was created.
 
 ## Required Fields
+Fields that MUST be present for metadata to be considered compliant with this specification.
+
 ### wx:observationTime
 * **Type**: ISO 8601 UTC timestamp
 * **Description**: Timestamp representing when the atmospheric conditions were observed or modeled, not when the data was retrieved.
 
 ### wx:observationSource
 * **Type**: Closed enumeration
+* **Description**: Category of system used to produce the atmospheric observation.
 ```
 station
 satellite
@@ -68,13 +67,18 @@ interpolated
 personalSensor
 ```
 
+Enumeration values are case-sensitive unless otherwise specified.
+
 ### wx:temperatureC
 * **Type**: Decimal (°C)
-* **Description**: Precision is implementation-defined.
+* **Description**: Ambient air temperature at observation time. Precision is implementation-defined.
 
 ## Recommended Fields
+Fields that significantly improve interpretability and SHOULD be included when available.
+
 ### wx:skyCondition
 * **Type**: Closed enumeration
+* **Description**: General classification of cloud coverage or atmospheric obscuration at observation time.
 ```
 clear
 few
@@ -84,8 +88,11 @@ overcast
 obscured
 ```
 
+Enumeration values are case-sensitive unless otherwise specified.
+
 ### wx:precipitationType
 * **Type**: Closed enumeration
+* **Description**: Type of precipitation occurring at observation time.
 ```
 none
 rain
@@ -96,10 +103,15 @@ hail
 mixed
 ```
 
+Enumeration values are case-sensitive unless otherwise specified.
+
 ### wx:visibilityMeters
 * **Type**: Integer
+* **Description**: Horizontal distance at which prominent objects can be observed under current atmospheric conditions.
 
 ## Recommended Extensions
+Optional fields that provide additional atmospheric detail.
+
 ### wx:humidityPercent
 * **Type**: Integer (0–100)
 * **Description**: Relative humidity at observation time.
@@ -119,7 +131,7 @@ mixed
 ## Acquisition Context Fields
 These fields describe how the observation was obtained rather than the atmospheric conditions themselves.
 
-These fields improve interpretability but are not required.
+These fields MAY be included to provide additional acquisition context.
 
 ### wx:dataProvider
 * **Type**: String
@@ -144,6 +156,8 @@ modeled
 blended
 unknown
 ```
+
+Enumeration values are case-sensitive unless otherwise specified.
 
 ### wx:lookupTime
 * **Type**: ISO 8601 UTC timestamp
